@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.example.calculator.CalculatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-03T13:46:36" hostname="llllllllllllllllllll.local" time="0.001">
+<testsuite name="com.example.calculator.CalculatorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-02-03T15:09:24" hostname="llllllllllllllllllll.local" time="0.008">
   <properties/>
-  <testcase name="sum()" classname="com.example.calculator.CalculatorTest" time="0.001"/>
+  <testcase name="sum()" classname="com.example.calculator.CalculatorTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
