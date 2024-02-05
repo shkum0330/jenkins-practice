@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -9,13 +13,22 @@ pipeline {
         }
         
     
-        stage('Compile'){
-            steps{
+        stage("Package") {
+            steps {
                 dir('calculator') {
-                    sh "./gradlew compileJava"  
+                    sh "./gradlew build"
+                }
+            }
+        }   
+
+        stage("Docker build") {
+            steps {
+                dir('calculator') {
+                    sh "docker build --platform linux/amd64 -t calculator ."
                 }
             }
         }
+
         stage('Unit test'){
             steps{
                 dir('calculator') {
