@@ -30,7 +30,7 @@ pipeline {
         }
         stage("Docker push") {
             steps {
-                sh "docker push <username>/calculator"
+                sh "docker push shkum0330/calculator"
             }
         }          
         stage("Deploy to staging"){
