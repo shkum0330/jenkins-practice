@@ -24,7 +24,7 @@ pipeline {
         stage("Docker build") {
             steps {
                 dir('calculator') {
-                    sh "docker build -t shkum0330/calculator ."
+                    sh "docker build --platform linux/amd64 -t shkum0330/calculator ."
                 }
             }
         }
