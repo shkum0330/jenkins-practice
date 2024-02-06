@@ -28,7 +28,18 @@ pipeline {
                 }
             }
         }
-
+        stage("Docker push") {
+            steps {
+                sh "docker push <username>/calculator"
+            }
+        }          
+        stage("Deploy to staging"){
+             steps {
+                dir('calculator') {
+                    sh "docker run -d --rm -p 8765:8080 --name calculator shkum0330/calculator ."
+                }
+            }
+        }
         stage('Unit test'){
             steps{
                 dir('calculator') {
