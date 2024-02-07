@@ -21,42 +21,6 @@ pipeline {
             }
         }   
 
-        stage("Docker build") {
-            steps {
-                dir('calculator') {
-                    sh "docker build --platform linux/amd64 -t shkum0330/calculator ."
-                }
-            }
-        }
-        stage("Docker login") {
-            steps {
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub',
-                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-                    sh "docker login --username $USERNAME --password $PASSWORD"
-                }
-            }
-        }   
-        stage("Docker push") {
-            steps {
-                sh "docker push shkum0330/calculator"
-            }
-        }          
-        stage("Deploy to staging"){
-             steps {
-                dir('calculator') {
-                    sh "docker run -d --rm -p 8765:8080 --name calculator shkum0330/calculator ."
-                }
-            }
-        }
-
-        stage("Acceptance test") {
-            steps {
-                sleep 60
-                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
-            }
-        }
-
-
         stage('Unit test'){
             steps{
                 dir('calculator') {
@@ -78,5 +42,46 @@ pipeline {
                 }
             }
         }
+
+
+        stage("Docker build") {
+            steps {
+                dir('calculator') {
+                    sh "docker build --platform linux/amd64 -t shkum0330/calculator ."
+                }
+            }
+        }
+        stage("Docker login") {
+            steps {
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'docker-hub',
+                        usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+                    sh "docker login --username $USERNAME --password $PASSWORD"
+                }
+            }
+        }   
+        stage("Docker push") {
+            steps {
+                sh "docker push shkum0330/calculator"
+            }
+        }          
+        stage("Deploy to staging"){
+            steps {
+                sh "docker run -d --rm -p 8765:8765 --name calculator shkum0330/calculator ."
+            }
+        }
+
+        stage("Acceptance test") {
+            steps {
+                sleep 60
+                sh "chmod +x acceptance_test.sh && ./acceptance_test.sh"
+            }
+        }
+
+
+        post {
+            always {
+                sh "docker stop calculator"
+            }
+        }   
     }
 }
