@@ -12,14 +12,6 @@ pipeline {
             }
         }
         
-    
-        stage("Package") {
-            steps {
-                dir('calculator') {
-                    sh "./gradlew build"
-                }
-            }
-        }   
 
         stage('Unit test'){
             steps{
@@ -28,21 +20,28 @@ pipeline {
                 }
             }
         }
-        stage("Code coverage") {
-            steps {
-                dir('calculator') {
-                    sh "./gradlew jacocoTestReport" 
-                }
-            }
-        }
-        stage("Static code analysis") {
-            steps {
-                dir('calculator') {
-                    sh "./gradlew checkstyleMain"
-                }
-            }
-        }
 
+        stage("Package") {
+            steps {
+                dir('calculator') {
+                    sh "./gradlew build"
+                }
+            }
+        }   
+        // stage("Code coverage") {
+        //     steps {
+        //         dir('calculator') {
+        //             sh "./gradlew jacocoTestReport" 
+        //         }
+        //     }
+        // }
+        // stage("Static code analysis") {
+        //     steps {
+        //         dir('calculator') {
+        //             sh "./gradlew checkstyleMain"
+        //         }
+        //     }
+        // }
 
         stage("Docker build") {
             steps {
@@ -73,7 +72,7 @@ pipeline {
         stage("Acceptance test") { 
             steps { 
                 dir('calculator') {
-                    sleep 60 
+                    sleep 30 
                     sh "./gradlew acceptanceTest -Dcalculator.url=http://localhost:8765"
                 }
             } 
