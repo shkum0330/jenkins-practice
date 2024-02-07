@@ -72,7 +72,6 @@ pipeline {
         stage("Acceptance test") { 
             steps { 
                 dir('calculator') {
-                    sleep 30 
                     sh "./gradlew acceptanceTest -Dcalculator.url=http://localhost:8765"
                 }
             } 
